@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Песня на заказ — песня по вашей истории</title>
+
+    <meta name="description"
+          content="Песня на заказ по вашей истории. Оригинальный подарок на день рождения, свадьбу, юбилей и другие важные события.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b0b12;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(11, 11, 18, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .nav {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff4d8d;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            font-size: 14px;
+            color: #ccccd5;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 70px;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255,77,141,0.22), transparent 35%),
+                radial-gradient(circle at 80% 60%, rgba(113,75,255,0.22), transparent 35%),
+                #0b0b12;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .label {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ddd;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, #ff4d8d, #8c6cff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: 0 auto 35px;
+            color: #bdbdc8;
+            font-size: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            padding: 0 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #ff4d8d, #8c6cff);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* SECTIONS */
+
+        section {
+            padding: 90px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #9999a8;
+            max-width: 650px;
+            margin: 0 auto 50px;
+        }
+
+        /* STEPS */
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #13131d;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .number {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff4d8d, #8c6cff);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: #a8a8b5;
+        }
+
+        /* OCCASIONS */
+
+        .occasions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .occasion {
+            padding: 25px;
+            border-radius: 16px;
+            background: #13131d;
+            border: 1px solid rgba(255,255,255,0.07);
+            font-size: 18px;
+        }
+
+        /* PRICE */
+
+        .price-box {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+            padding: 45px 30px;
+            border-radius: 25px;
+            background:
+                linear-gradient(135deg, rgba(255,77,141,0.15),
+                rgba(140,108,255,0.15));
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .price {
+            font-size: 54px;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        .price-box p {
+            color: #b5b5c2;
+            margin-bottom: 25px;
+        }
+
+        /* REVIEWS */
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .review {
+            background: #13131d;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .stars {
+            color: #ffd45c;
+            margin-bottom: 15px;
+        }
+
+        .review p {
+            color: #c0c0ca;
+            margin-bottom: 15px;
+        }
+
+        .review strong {
+            font-size: 14px;
+        }
+
+        /* CTA */
+
+        .cta {
+            text-align: center;
+            padding: 100px 20px;
+            background:
+                radial-gradient(circle, rgba(255,77,141,0.18), transparent 60%);
+        }
+
+        .cta h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            color: #aaaab8;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 30px 0;
+            color: #858593;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            nav {
+                display: none;
+            }
+
+            .steps,
+            .reviews {
+                grid-template-columns: 1fr;
+            }
+
+            .occasions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .section-title {
+                font-size: 34px;
+            }
+
+            .cta h2 {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .occasions {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+
+        <div class="logo">
+            🎵 Песня <span>на заказ</span>
+        </div>
+
+        <nav>
+            <a href="#how">Как это работает</a>
+            <a href="#occasions">Для кого</a>
+            <a href="#price">Стоимость</a>
+            <a href="#contact">Заказать</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="label">
+            🎧 Авторские песни по вашей истории
+        </div>
+
+        <h1>
+            Песня, в которой
+            <span>будет ваша история</span>
+        </h1>
+
+        <p>
+            Создам персональную песню о вас, вашей семье,
+            любви, дружбе или важном событии.
+        </p>
+
+        <div class="buttons">
+
+            <a class="btn btn-primary"
+               href="#contact">
+                🎤 Заказать песню
+            </a>
+
+            <a class="btn btn-secondary"
+               href="#how">
+                Как это работает
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HOW -->
+
+<section id="how">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Как всё происходит
+        </h2>
+
+        <p class="section-subtitle">
+            Вам не нужно уметь писать стихи или музыку.
+            Достаточно рассказать вашу историю.
+        </p>
+
+        <div class="steps">
+
+            <div class="card">
+                <div class="number">1</div>
+                <h3>Рассказываете историю</h3>
+                <p>
+                    Вы рассказываете о человеке,
+                    событии и важных моментах,
+                    которые хотите сохранить в песне.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="number">2</div>
+                <h3>Создаём песню</h3>
+                <p>
+                    Пишем текст и создаём музыкальную
+                    композицию в подходящем стиле.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="number">3</div>
+                <h3>Получаете готовый трек</h3>
+                <p>
+                    Вы получаете готовую песню,
+                    которую можно подарить близкому человеку.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- OCCASIONS -->
+
+<section id="occasions">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Для какого случая?
+        </h2>
+
+        <p class="section-subtitle">
+            Песня может стать необычным и очень личным подарком.
+        </p>
+
+        <div class="occasions">
+
+            <div class="occasion">🎂 День рождения</div>
+            <div class="occasion">💍 Свадьба</div>
+            <div class="occasion">❤️ Признание в любви</div>
+            <div class="occasion">🎉 Юбилей</div>
+            <div class="occasion">👨‍👩‍👧‍👦 Для семьи</div>
+            <div class="occasion">👩‍👦 Для мамы</div>
+            <div class="occasion">👨‍👦 Для папы</div>
+            <div class="occasion">💑 Годовщина</div>
+            <div class="occasion">🎁 Просто без повода</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PRICE -->
+
+<section id="price">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Стоимость
+        </h2>
+
+        <p class="section-subtitle">
+            Простая и понятная цена без лишних условий.
+        </p>
+
+        <div class="price-box">
+
+            <div>Песня на заказ</div>
+
+            <div class="price">
+                от 800 ₽
+            </div>
+
+            <p>
+                Персональный текст + музыка +
+                готовый трек для вашего праздника.
+            </p>
+
+            <a class="btn btn-primary"
+               href="#contact">
+                Заказать песню
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- REVIEWS -->
+
+<section>
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Отзывы клиентов
+        </h2>
+
+        <p class="section-subtitle">
+            Здесь разместим реальные отзывы ваших клиентов.
+        </p>
+
+        <div class="reviews">
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+
+                <p>
+                    «Песня получилась невероятной!
+                    Подарок вызвал настоящие эмоции.»
+                </p>
+
+                <strong>— Ваш клиент</strong>
+            </div>
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+
+                <p>
+                    «Спасибо за песню!
+                    В ней действительно получилась наша история.»
+                </p>
+
+                <strong>— Ваш клиент</strong>
+            </div>
+
+            <div class="review">
+                <div class="stars">★★★★★</div>
+
+                <p>
+                    «Очень необычный подарок.
+                    Все гости были в восторге!»
+                </p>
+
+                <strong>— Ваш клиент</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta" id="contact">
+
+    <div class="container">
+
+        <h2>
+            Давайте создадим вашу песню ❤️
+        </h2>
+
+        <p>
+            Расскажите вашу историю —
+            и она превратится в песню,
+            которую захочется слушать снова и снова.
+        </p>
+
+        <!-- ПОТОМ ЗАМЕНИМ ССЫЛКУ НА ВАШУ ГРУППУ ВК -->
+
+        <a class="btn btn-primary"
+           href="https://vk.com/"
+           target="_blank">
+
+            💬 Написать в ВК
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="container">
+
+        © 2026 «Песня на заказ»
+        <br>
+        Авторские песни по вашей истории
+
+    </div>
+
+</footer>
+
+</body>
+</html>
