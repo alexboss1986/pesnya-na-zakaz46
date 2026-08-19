@@ -234,7 +234,68 @@
             border: 1px solid rgba(255,255,255,0.07);
             font-size: 18px;
         }
+/* SONGS */
 
+.songs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.song {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px;
+    background: #13131d;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    transition: 0.25s;
+}
+
+.song:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,77,141,0.4);
+}
+
+.song-cover {
+    width: 65px;
+    height: 65px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: linear-gradient(135deg, #ff4d8d, #8c6cff);
+}
+
+.song-info {
+    flex: 1;
+}
+
+.song-info h3 {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.song-info p {
+    color: #8f8f9d;
+    font-size: 14px;
+}
+
+.listen {
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.listen:hover {
+    background: linear-gradient(90deg, #ff4d8d, #8c6cff);
+}
         /* PRICE */
 
         .price-box {
@@ -362,6 +423,9 @@
             h1 {
                 font-size: 45px;
             }
+        .songs {
+    grid-template-columns: 1fr;
+}
         }
     </style>
 </head>
@@ -509,7 +573,93 @@
 
 </section>
 
+<!-- SONGS -->
 
+<section id="songs">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            🎧 Примеры песен
+        </h2>
+
+        <p class="section-subtitle">
+            Несколько треков от Alex Boss.
+            Послушайте и почувствуйте атмосферу.
+        </p>
+
+        <div class="songs">
+
+            <div class="song">
+                <div class="song-cover">🎵</div>
+                <div class="song-info">
+                    <h3>Не отпускай</h3>
+                    <p>Alex Boss</p>
+                </div>
+                <a href="https://vk.ru/pesnya_na_zakaz46"
+                   target="_blank"
+                   class="listen">
+                    ▶ Слушать
+                </a>
+            </div>
+
+            <div class="song">
+                <div class="song-cover">🎵</div>
+                <div class="song-info">
+                    <h3>Пульс этой ночи</h3>
+                    <p>Alex Boss</p>
+                </div>
+                <a href="https://vk.ru/pesnya_na_zakaz46"
+                   target="_blank"
+                   class="listen">
+                    ▶ Слушать
+                </a>
+            </div>
+
+            <div class="song">
+                <div class="song-cover">🎵</div>
+                <div class="song-info">
+                    <h3>Silicon Sands</h3>
+                    <p>Alex Boss</p>
+                </div>
+                <a href="https://vk.ru/pesnya_na_zakaz46"
+                   target="_blank"
+                   class="listen">
+                    ▶ Слушать
+                </a>
+            </div>
+
+            <div class="song">
+                <div class="song-cover">🎵</div>
+                <div class="song-info">
+                    <h3>Танцуй до рассвета</h3>
+                    <p>Alex Boss</p>
+                </div>
+                <a href="https://vk.ru/pesnya_na_zakaz46"
+                   target="_blank"
+                   class="listen">
+                    ▶ Слушать
+                </a>
+            </div>
+
+            <div class="song">
+                <div class="song-cover">🎵</div>
+                <div class="song-info">
+                    <h3>На волне</h3>
+                    <p>Alex Boss</p>
+                </div>
+                <a href="https://vk.ru/pesnya_na_zakaz46"
+                   target="_blank"
+                   class="listen">
+                    ▶ Слушать
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 <!-- PRICE -->
 
 <section id="price">
