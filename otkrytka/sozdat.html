@@ -111,9 +111,8 @@
       event.preventDefault();
 
       const audioValue = document.getElementById('audio').value.trim();
-      const isGoogleDriveLink = /^https?:\/\/drive\.google\.com\//i.test(audioValue);
-      if (!isGoogleDriveLink && !audioValue.toLowerCase().endsWith('.mp3')) {
-        alert('Вставь ссылку на MP3-файл Google Диска.');
+      if (!audioValue.toLowerCase().endsWith('.mp3') || /[\\/]/.test(audioValue)) {
+        alert('Укажи точное имя MP3-файла, например pesnya-andrey.mp3.');
         return;
       }
 
