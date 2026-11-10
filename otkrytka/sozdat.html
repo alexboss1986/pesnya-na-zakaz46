@@ -57,13 +57,17 @@
         <label for="track">Название песни</label>
         <input id="track" placeholder="Например: С днём рождения, Андрей!" required>
 
-        <label for="audio">Имя MP3-файла</label>
+        <label for="audioFile">Выбрать MP3 на компьютере</label>
+        <input id="audioFile" type="file" accept=".mp3,audio/mpeg">
+        <label for="audio">Имя MP3-файла на сайте</label>
         <input id="audio" placeholder="Например: Андрей.mp3" required>
-        <div class="hint">Сначала загрузи MP3 в папку otkrytka на GitHub. Здесь укажи точное имя файла вместе с расширением.</div>
+        <div class="hint">Выбор файла подставит его имя в поле. Сам файл пока нужно отдельно загрузить в папку otkrytka на GitHub.</div>
 
-        <label for="cover">Имя файла обложки</label>
+        <label for="coverFile">Выбрать обложку на компьютере</label>
+        <input id="coverFile" type="file" accept="image/*">
+        <label for="cover">Имя файла обложки на сайте</label>
         <input id="cover" value="cover.jpg" required>
-        <div class="hint">Загрузи картинку в ту же папку otkrytka. Например: cover.jpg или cover-andrey.jpg.</div>
+        <div class="hint">Имя выбранной картинки появится в поле. Картинку также нужно отдельно загрузить в папку otkrytka на GitHub.</div>
 
         <button type="submit">Создать ссылку на открытку</button>
       </form>
@@ -86,6 +90,20 @@
     const result = document.getElementById('result');
     const output = document.getElementById('linkOutput');
     const copyButton = document.getElementById('copyButton');
+    const audioFile = document.getElementById('audioFile');
+    const coverFile = document.getElementById('coverFile');
+
+    audioFile.addEventListener('change', function () {
+      if (audioFile.files.length) {
+        document.getElementById('audio').value = audioFile.files[0].name;
+      }
+    });
+
+    coverFile.addEventListener('change', function () {
+      if (coverFile.files.length) {
+        document.getElementById('cover').value = coverFile.files[0].name;
+      }
+    });
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
