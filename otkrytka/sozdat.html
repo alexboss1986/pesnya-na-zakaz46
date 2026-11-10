@@ -59,15 +59,15 @@
 
         <label for="audioFile">Выбрать MP3 на компьютере</label>
         <input id="audioFile" type="file" accept=".mp3,audio/mpeg">
-        <label for="audio">Ссылка на MP3 в Google Диске</label>
-        <input id="audio" type="url" placeholder="Вставь ссылку на файл Google Диска" required>
-        <div class="hint">В Google Диске нажми «Открыть доступ» и установи «Все, у кого есть ссылка». Затем скопируй ссылку сюда. Выбранный файл с компьютера пока не загружается автоматически.</div>
+        <label for="audio">Имя MP3-файла на сайте</label>
+        <input id="audio" type="text" placeholder="Например: pesnya-andrey.mp3" required>
+        <div class="hint">Сначала загрузи MP3 в папку otkrytka на GitHub. Затем выбери файл выше или впиши его точное имя. Сам файл через эту форму не загружается.</div>
 
         <label for="coverFile">Выбрать обложку на компьютере</label>
         <input id="coverFile" type="file" accept="image/*">
         <label for="cover">Имя файла обложки на сайте</label>
         <input id="cover" value="cover.jpg" required>
-        <div class="hint">Имя выбранной картинки появится в поле. Картинку также нужно отдельно загрузить в папку otkrytka на GitHub.</div>
+        <div class="hint">Сначала загрузи картинку в папку otkrytka на GitHub. Затем выбери её выше или впиши точное имя файла.</div>
 
         <button type="submit">Создать ссылку на открытку</button>
       </form>
@@ -81,7 +81,7 @@
       </div>
 
       <div class="note">
-        MP3-файл размещается на Google Диске. Для работы открытки доступ к нему должен быть установлен как «Все, у кого есть ссылка». Обложку пока нужно отдельно загрузить в папку <b>otkrytka</b> на сайте.
+        MP3 и обложку нужно заранее загрузить в папку <b>otkrytka</b> на GitHub. После этого генератор создаст ссылку на открытку. Файлы через эту форму не загружаются.
       </div>
     </section>
   </main>
@@ -97,7 +97,7 @@
 
     audioFile.addEventListener('change', function () {
       if (audioFile.files.length) {
-        alert('Файл выбран, но автоматическая загрузка пока не подключена. Сначала загрузи MP3 на Google Диск и вставь ссылку на него.');
+        document.getElementById('audio').value = audioFile.files[0].name;
       }
     });
 
@@ -117,12 +117,18 @@
         return;
       }
 
+      const coverValue = document.getElementById('cover').value.trim();
+      if (!coverValue || /[\\\\/]/.test(coverValue)) {
+        alert('Укажи точное имя файла обложки, например cover.jpg.');
+        return;
+      }
+
       const params = new URLSearchParams({
         name: document.getElementById('name').value.trim(),
         message: document.getElementById('message').value.trim(),
         track: document.getElementById('track').value.trim(),
         audio: audioValue,
-        cover: document.getElementById('cover').value.trim()
+        cover: coverValue
       });
 
       const created = new Date();
