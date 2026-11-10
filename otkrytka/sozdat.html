@@ -74,6 +74,7 @@
 
       <div class="result" id="result">
         <p>Готовая ссылка на открытку:</p>
+        <div class="note" id="createdInfo"></div>
         <textarea id="linkOutput" readonly></textarea>
         <button class="copy" type="button" id="copyButton">Скопировать ссылку</button>
         <div class="note">Перед отправкой открой ссылку и проверь, что поздравление, обложка и песня отображаются правильно.</div>
@@ -90,6 +91,7 @@
     const result = document.getElementById('result');
     const output = document.getElementById('linkOutput');
     const copyButton = document.getElementById('copyButton');
+    const createdInfo = document.getElementById('createdInfo');
     const audioFile = document.getElementById('audioFile');
     const coverFile = document.getElementById('coverFile');
 
@@ -115,6 +117,15 @@
         audio: document.getElementById('audio').value.trim(),
         cover: document.getElementById('cover').value.trim()
       });
+
+      const created = new Date();
+      const remindDate = new Date(created);
+      remindDate.setDate(remindDate.getDate() + 7);
+      const formatDate = date => date.toLocaleDateString('ru-RU', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+      createdInfo.textContent = 'Дата создания: ' + formatDate(created) +
+        '. Напомнить о скачивании и проверить файлы после: ' + formatDate(remindDate) + '.';
 
       output.value = 'https://pesnya-na-zakaz46.pages.dev/otkrytka/?' + params.toString();
       result.style.display = 'block';
