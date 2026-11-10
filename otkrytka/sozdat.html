@@ -59,9 +59,9 @@
 
         <label for="audioFile">Выбрать MP3 на компьютере</label>
         <input id="audioFile" type="file" accept=".mp3,audio/mpeg">
-        <label for="audio">Имя MP3-файла на сайте</label>
-        <input id="audio" placeholder="Например: Андрей.mp3" required>
-        <div class="hint">Выбор файла подставит его имя в поле. Сам файл пока нужно отдельно загрузить в папку otkrytka на GitHub.</div>
+        <label for="audio">Ссылка на MP3 в Google Диске</label>
+        <input id="audio" type="url" placeholder="Вставь ссылку на файл Google Диска" required>
+        <div class="hint">В Google Диске нажми «Открыть доступ» и установи «Все, у кого есть ссылка». Затем скопируй ссылку сюда. Выбранный файл с компьютера пока не загружается автоматически.</div>
 
         <label for="coverFile">Выбрать обложку на компьютере</label>
         <input id="coverFile" type="file" accept="image/*">
@@ -81,7 +81,7 @@
       </div>
 
       <div class="note">
-        Важно: эта страница формирует ссылку, но не загружает файлы на GitHub. MP3 и изображения нужно предварительно добавить в папку <b>otkrytka</b> репозитория.
+        MP3-файл размещается на Google Диске. Для работы открытки доступ к нему должен быть установлен как «Все, у кого есть ссылка». Обложку пока нужно отдельно загрузить в папку <b>otkrytka</b> на сайте.
       </div>
     </section>
   </main>
@@ -97,7 +97,7 @@
 
     audioFile.addEventListener('change', function () {
       if (audioFile.files.length) {
-        document.getElementById('audio').value = audioFile.files[0].name;
+        alert('Файл выбран, но автоматическая загрузка пока не подключена. Сначала загрузи MP3 на Google Диск и вставь ссылку на него.');
       }
     });
 
@@ -110,11 +110,18 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
+      const audioValue = document.getElementById('audio').value.trim();
+      const isGoogleDriveLink = /^https?:\\/\\/(drive\\.google\\.com)\\//i.test(audioValue);
+      if (!isGoogleDriveLink && !audioValue.toLowerCase().endsWith('.mp3')) {
+        alert('Вставь ссылку на MP3-файл Google Диска.');
+        return;
+      }
+
       const params = new URLSearchParams({
         name: document.getElementById('name').value.trim(),
         message: document.getElementById('message').value.trim(),
         track: document.getElementById('track').value.trim(),
-        audio: document.getElementById('audio').value.trim(),
+        audio: audioValue,
         cover: document.getElementById('cover').value.trim()
       });
 
