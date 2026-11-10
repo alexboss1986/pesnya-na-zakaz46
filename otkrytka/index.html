@@ -86,6 +86,19 @@ audio {
   display: none;
 }
 
+.drive-player {
+  display: block;
+  width: 100%;
+  height: 150px;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.drive-player[hidden] {
+  display: none;
+}
+
 .play-button {
   width: 100%;
   padding: 15px;
@@ -160,6 +173,11 @@ audio {
     </p>
 
     <audio id="player" preload="metadata"></audio>
+    <iframe id="drivePlayer" class="drive-player"
+            title="Плеер Google Диска"
+            allow="autoplay"
+            allowfullscreen
+            hidden></iframe>
 
     <button class="play-button" id="playButton"
             type="button">
@@ -200,6 +218,21 @@ const greeting = document.getElementById('greeting');
 const player = document.getElementById('player');
 const music = document.getElementById('music');
 const playButton = document.getElementById('playButton');
+const drivePlayer = document.getElementById('drivePlayer');
+
+function getGoogleDriveFileId(value) {
+  if (!value) return null;
+  const patterns = [
+    /drive\\.google\\.com\\/file\\/d\\/([a-zA-Z0-9_-]+)/,
+    /drive\\.google\\.com\\/open\\?id=([a-zA-Z0-9_-]+)/,
+    /drive\\.google\\.com\\/uc\\?.*id=([a-zA-Z0-9_-]+)/
+  ];
+  for (const pattern of patterns) {
+    const match = value.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
 
 if (name) {
   greeting.textContent = name + ', эта песня для тебя!';
@@ -221,8 +254,19 @@ if (coverUrl) {
 }
 
 if (audioUrl) {
-  player.src = audioUrl;
-  document.getElementById('download').href = audioUrl;
+  const driveFileId = getGoogleDriveFileId(audioUrl);
+  if (driveFileId) {
+    drivePlayer.src = 'https://drive.google.com/file/d/' +
+      encodeURIComponent(driveFileId) + '/preview';
+    drivePlayer.hidden = false;
+    playButton.hidden = true;
+    document.getElementById('download').href =
+      'https://drive.google.com/uc?export=download&id=' +
+      encodeURIComponent(driveFileId);
+  } else {
+    player.src = audioUrl;
+    document.getElementById('download').href = audioUrl;
+  }
   music.hidden = false;
   document.getElementById('missingAudio').hidden = true;
 }
