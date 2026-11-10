@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f1e9">
+  <title>Музыкальная открытка — Песня на заказ</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; padding: 28px 16px;
+      display: grid; place-items: center;
+      font-family: Arial, Helvetica, sans-serif; color: #3d3028;
+      background: radial-gradient(circle at top, #fffaf3 0, #f2e7d9 65%, #eadbca 100%);
+    }
+    .card {
+      width: min(100%, 460px); padding: 28px 22px 24px;
+      text-align: center; background: rgba(255,255,255,.88);
+      border: 1px solid rgba(139,104,72,.16); border-radius: 24px;
+      box-shadow: 0 18px 55px rgba(89,62,39,.12);
+    }
+    .eyebrow { color: #9b795c; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 12px 0 10px; font-family: Georgia, serif; font-size: clamp(27px, 7vw, 36px); line-height: 1.15; font-weight: 600; }
+    .message { margin: 0 auto 22px; max-width: 340px; color: #76665a; line-height: 1.6; white-space: pre-line; }
+    .cover {
+      display: block; width: min(100%, 280px); aspect-ratio: 1; object-fit: cover;
+      margin: 0 auto 20px; border-radius: 17px; background: linear-gradient(135deg,#ead8c2,#b58d6b);
+      box-shadow: 0 10px 28px rgba(89,62,39,.16);
+    }
+    .music { padding: 17px; border-radius: 16px; background: #f8f2eb; text-align: left; }
+    .track-title { margin: 0 0 11px; font-weight: 700; }
+    audio { display: block; width: 100%; }
+    .download {
+      display: inline-block; margin-top: 14px; padding: 11px 18px; border-radius: 24px;
+      color: white; background: #8c684b; text-decoration: none; font-weight: 700;
+    }
+    .download[hidden], .cover[hidden], .music[hidden] { display: none; }
+    .footer { margin-top: 22px; color: #a28d7a; font-size: 12px; }
+    .note { margin: 14px 0 0; color: #9a7b60; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">Песня на заказ</div>
+    <h1 id="greeting">Эта песня для тебя!</h1>
+    <p class="message" id="message">Особенная песня, созданная по вашей истории.</p>
+
+    <img class="cover" id="cover" alt="Обложка вашей песни" hidden>
+
+    <section class="music" id="music" hidden>
+      <p class="track-title" id="trackTitle">Твоя особенная песня</p>
+      <audio id="player" controls preload="metadata">
+        Ваш браузер не поддерживает аудиоплеер.
+      </audio>
+      <a class="download" id="download" href="#" download>Скачать песню</a>
+    </section>
+
+    <p class="note" id="missingAudio">Здесь будет звучать ваша персональная песня ❤️</p>
+    <div class="footer">Создано с душой специально для тебя</div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name');
+    const message = params.get('message');
+    const audio = params.get('audio');
+    const cover = params.get('cover');
+    const track = params.get('track');
+
+    if (name) document.getElementById('greeting').textContent = name + ', эта песня для тебя!';
+    if (message) document.getElementById('message').textContent = message;
+    if (track) document.getElementById('trackTitle').textContent = track;
+
+    if (cover) {
+      const image = document.getElementById('cover');
+      image.src = cover;
+      image.hidden = false;
+      image.onerror = () => { image.hidden = true; };
+    }
+
+    if (audio) {
+      const player = document.getElementById('player');
+      const music = document.getElementById('music');
+      const download = document.getElementById('download');
+      player.src = audio;
+      download.href = audio;
+      music.hidden = false;
+      document.getElementById('missingAudio').hidden = true;
+    }
+  </script>
+</body>
+</html>
