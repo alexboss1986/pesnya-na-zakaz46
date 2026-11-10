@@ -111,7 +111,7 @@
       event.preventDefault();
 
       const audioValue = document.getElementById('audio').value.trim();
-      const isGoogleDriveLink = /^https?:\\/\\/(drive\\.google\\.com)\\//i.test(audioValue);
+      const isGoogleDriveLink = /^https?:\/\/drive\.google\.com\//i.test(audioValue);
       if (!isGoogleDriveLink && !audioValue.toLowerCase().endsWith('.mp3')) {
         alert('Вставь ссылку на MP3-файл Google Диска.');
         return;
