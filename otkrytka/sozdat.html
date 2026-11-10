@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Создать музыкальную открытку</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 28px 16px; min-height: 100vh;
+      font-family: Arial, sans-serif; color: #f7f0df;
+      background: radial-gradient(circle at top, #352817 0, #17130e 42%, #0c0b09 100%);
+    }
+    .wrap { max-width: 680px; margin: 0 auto; }
+    .panel {
+      background: rgba(25, 21, 15, .96); border: 1px solid #806333;
+      border-radius: 18px; padding: 26px; box-shadow: 0 18px 50px #0008;
+    }
+    h1 { margin: 0 0 8px; text-align: center; color: #e7c77d; font-size: 28px; }
+    .intro { text-align: center; color: #c8bda8; line-height: 1.5; margin: 0 0 24px; }
+    label { display: block; margin: 17px 0 7px; color: #e7c77d; font-weight: bold; }
+    input, textarea {
+      width: 100%; padding: 12px 13px; border-radius: 9px;
+      border: 1px solid #6f5a38; background: #100e0b; color: #fff;
+      font: inherit; outline: none;
+    }
+    textarea { min-height: 105px; resize: vertical; }
+    input:focus, textarea:focus { border-color: #e7c77d; }
+    .hint { color: #a99d89; font-size: 13px; line-height: 1.45; margin-top: 6px; }
+    button {
+      width: 100%; margin-top: 23px; padding: 14px;
+      border: 0; border-radius: 10px; cursor: pointer;
+      color: #21180b; background: linear-gradient(135deg, #f1d58f, #bd9147);
+      font-size: 16px; font-weight: bold;
+    }
+    button:hover { filter: brightness(1.08); }
+    .result { display: none; margin-top: 22px; padding-top: 20px; border-top: 1px solid #66512f; }
+    .result p { color: #e7c77d; font-weight: bold; }
+    #linkOutput { min-height: 92px; overflow-wrap: anywhere; }
+    .copy { margin-top: 12px; background: #d7bd82; }
+    .note { margin-top: 20px; padding: 13px; border-radius: 9px; background: #302719; color: #d2c4a9; font-size: 13px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <h1>Создать музыкальную открытку</h1>
+      <p class="intro">Заполни данные песни — и получи готовую ссылку, которую можно отправить получателю.</p>
+
+      <form id="cardForm">
+        <label for="name">Имя получателя</label>
+        <input id="name" placeholder="Например: Андрей" required>
+
+        <label for="message">Текст поздравления</label>
+        <textarea id="message" placeholder="Напиши поздравление..." required></textarea>
+
+        <label for="track">Название песни</label>
+        <input id="track" placeholder="Например: С днём рождения, Андрей!" required>
+
+        <label for="audio">Имя MP3-файла</label>
+        <input id="audio" placeholder="Например: Андрей.mp3" required>
+        <div class="hint">Сначала загрузи MP3 в папку otkrytka на GitHub. Здесь укажи точное имя файла вместе с расширением.</div>
+
+        <label for="cover">Имя файла обложки</label>
+        <input id="cover" value="cover.jpg" required>
+        <div class="hint">Загрузи картинку в ту же папку otkrytka. Например: cover.jpg или cover-andrey.jpg.</div>
+
+        <button type="submit">Создать ссылку на открытку</button>
+      </form>
+
+      <div class="result" id="result">
+        <p>Готовая ссылка на открытку:</p>
+        <textarea id="linkOutput" readonly></textarea>
+        <button class="copy" type="button" id="copyButton">Скопировать ссылку</button>
+        <div class="note">Перед отправкой открой ссылку и проверь, что поздравление, обложка и песня отображаются правильно.</div>
+      </div>
+
+      <div class="note">
+        Важно: эта страница формирует ссылку, но не загружает файлы на GitHub. MP3 и изображения нужно предварительно добавить в папку <b>otkrytka</b> репозитория.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('cardForm');
+    const result = document.getElementById('result');
+    const output = document.getElementById('linkOutput');
+    const copyButton = document.getElementById('copyButton');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const params = new URLSearchParams({
+        name: document.getElementById('name').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        track: document.getElementById('track').value.trim(),
+        audio: document.getElementById('audio').value.trim(),
+        cover: document.getElementById('cover').value.trim()
+      });
+
+      output.value = 'https://alexboss1986.github.io/pesnya-na-zakaz46/otkrytka/?' + params.toString();
+      result.style.display = 'block';
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    copyButton.addEventListener('click', async function () {
+      try {
+        await navigator.clipboard.writeText(output.value);
+        copyButton.textContent = 'Ссылка скопирована!';
+      } catch (error) {
+        output.focus();
+        output.select();
+        document.execCommand('copy');
+        copyButton.textContent = 'Ссылка скопирована!';
+      }
+    });
+  </script>
+</body>
+</html>
